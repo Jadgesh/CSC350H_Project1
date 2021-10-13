@@ -20,7 +20,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         public void PowerOn()
         {
             // Play Loading Screen Animation
-            LoadingScreen();
+            //LoadingScreen();
 
             // Display menu
             DisplayMenu();
