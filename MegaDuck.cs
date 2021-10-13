@@ -162,6 +162,9 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             switch (selectedGame)
             {
                 case 0:
+                    Ten tenGame = new Ten();
+
+                    tenGame.Play();
                     break;
                 case 1:
                     break;
