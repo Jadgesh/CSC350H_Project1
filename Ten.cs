@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ConsoleCards;
 
 namespace CSC350H_Project1_Jadgesh_Inderjeet
 {
@@ -102,7 +101,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             for (int i = 0; i < inPlayCards.Count - 3; i++)
             {
                 rankCount = 0;
-                if ((int)System.Enum.Parse(typeof(Rank), inPlayCards[i].Rank) + 1 >= 10)
+                if ((int)System.Enum.Parse(typeof(Rank), inPlayCards[i].Rank.ToString()) + 1 >= 10)
                 {
                     for (int j = i; j < inPlayCards.Count; j++)
                     {

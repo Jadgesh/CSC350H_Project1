@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ConsoleCards;
 
 namespace CSC350H_Project1_Jadgesh_Inderjeet
 {
@@ -61,10 +60,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         {
             while (inPlayCards.Count < activeCardMax && !deck.Empty)
             {
-                Card temp = deck.TakeTopCard();
-                if (!temp.FaceUp)
-                    temp.FlipOver();
-                inPlayCards.Add(temp);
+                inPlayCards.Add(deck.TakeTopCard());
             }
         }
 
@@ -110,7 +106,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             {
                 if (selectedCards[i])
                 {
-                    int cardValue = (int)System.Enum.Parse(typeof(Rank), inPlayCards[i].Rank) + 1;
+                    int cardValue = (int)System.Enum.Parse(typeof(Rank), inPlayCards[i].Rank.ToString()) + 1;
 
                     if (cardValue >= goalSum)
                         return false;
@@ -128,10 +124,10 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
             for (int i = 0; i < inPlayCards.Count; i++)
             {
-                sum = (int)System.Enum.Parse(typeof(Rank), inPlayCards[i].Rank) + 1;
+                sum = (int)System.Enum.Parse(typeof(Rank), inPlayCards[i].Rank.ToString()) + 1;
                 for (int j = 0; j < inPlayCards.Count; j++)
                 {
-                    sum += (int)System.Enum.Parse(typeof(Rank), inPlayCards[j].Rank) + 1;
+                    sum += (int)System.Enum.Parse(typeof(Rank), inPlayCards[j].Rank.ToString()) + 1;
 
                     if (sum == goalSum)
                         return true;

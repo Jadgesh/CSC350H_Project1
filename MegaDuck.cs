@@ -9,9 +9,11 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 {
     class MegaDuck
     {
-        private System.Timers.Timer mainTimer;
+        private Timer mainTimer;
         private int length = 0;
         private int selectedGame = 0;
+
+        // No need for a constructor.
         public MegaDuck()
         {
 
@@ -20,7 +22,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         public void PowerOn()
         {
             // Play Loading Screen Animation
-            LoadingScreen();
+            //LoadingScreen();
 
             // Display menu
             DisplayMenu();
@@ -33,7 +35,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         {
             // Print Game Console's Logo
             Console.SetWindowSize(53, 8); // We're assuming the target platform is Windows
-            Console.OutputEncoding = System.Text.Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("• ▌ ▄ ·. ▄▄▄ . ▄▄ •  ▄▄▄·     ·▄▄▄▄  ▄• ▄▌ ▄▄· ▄ •▄");
             Console.WriteLine("·██ ▐███▪▀▄.▀·▐█ ▀ ▪▐█ ▀█     ██▪ ██ █▪██▌▐█ ▌▪█▌▄▌▪");
@@ -72,18 +74,13 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                 Console.Clear();
                 Console.ResetColor(); // Reset foreground and background to default
                 Console.SetWindowSize(38, 12); // Set window to fit menu only
-                Console.Write("╔════════════════════════════════════╗\n");
-                Console.Write("║");
+                Console.Write("╔════════════════════════════════════╗\n║");
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.Write(" Mega Duck                          ");
                 Console.ResetColor();
-                Console.Write("║\n");
-                Console.ResetColor();
-                Console.Write("╠════════════════════════════════════╣\n");
-                Console.Write("║ Select a game to play              ║\n");
-                Console.Write("║                                    ║\n");
-                Console.Write("║");
+                Console.Write("║\n╠════════════════════════════════════╣\n" +
+                    "║ Select a game to play              ║\n║                                    ║\n║");
 
                 if(selectedGame == 0)
                 {
@@ -153,7 +150,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                 if (input.Key == ConsoleKey.Enter)
                     break;
 
-                Console.Clear();
+                //Console.Clear();
             }
         }
 
