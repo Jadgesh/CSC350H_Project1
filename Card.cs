@@ -20,5 +20,10 @@
         {
             get { return suit; }
         }
+
+        public int Value
+        {
+            get { return (int)System.Enum.Parse(typeof(Rank), Rank.ToString()) + 1; }
+        }
     }
 }

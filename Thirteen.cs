@@ -8,19 +8,50 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 {
     class Thirteen : Board
     {
-        private protected override void GetPlayerSelection()
+        public Thirteen()
         {
-            throw new NotImplementedException();
+            deck = new Deck();
+            inPlayCards = new List<Card>();
+
+            maxInPlayCards = 10;
+
+            selectedCards = new bool[maxInPlayCards];
+            ResetSelectedCards();
+
+            highlightedCard = 0;
+            targetSum = 13;
         }
 
-        private protected override bool HasValidPair()
+        private protected override bool HasAltCombo()
         {
-            throw new NotImplementedException();
+            int selectedCardCount = 0;
+            // Check total amount of selected cards
+            for(int i = 0; i < maxInPlayCards; i++)
+            {
+                if (selectedCards[i])
+                    selectedCardCount++;
+            }
+
+            if (selectedCardCount != 1)
+                return false;
+
+            for(int i = 0; i < inPlayCards.Count; i++)
+            {
+                if (selectedCards[i])
+                    if (inPlayCards[i].Value == 13)
+                        return true;
+            }
+            return false;
         }
 
-        private protected override bool SelectionIsValidCombination()
+        private protected override bool HasAltCombo(List<Card> a)
         {
-            throw new NotImplementedException();
+            for(int i = 0; i < a.Count; i++)
+            {
+                if (a[i].Value == 13)
+                    return true;
+            }
+            return false;
         }
     }
 }

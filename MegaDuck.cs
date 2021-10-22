@@ -1,173 +1,118 @@
-﻿using System;
-using System.Timers;
-using System.Collections.Generic;
-using System.Linq;
+﻿/*using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CSC350H_Project1_Jadgesh_Inderjeet
 {
     class MegaDuck
     {
-        private Timer mainTimer;
-        private int length = 0;
-        private int selectedGame = 0;
+        private int selectedOption;
 
-        // No need for a constructor.
         public MegaDuck()
         {
-
+            Console.OutputEncoding = Encoding.Default;
+            MenuManager();
         }
 
-        public void PowerOn()
+        private void MenuManager()
         {
-            // Play Loading Screen Animation
-            //LoadingScreen();
+            selectedOption = 0;
 
-            // Display menu
-            DisplayMenu();
-
-            // Load Game selected Game
-            LoadGame();
-        }
-
-        private void LoadingScreen()
-        {
-            // Print Game Console's Logo
-            Console.SetWindowSize(53, 8); // We're assuming the target platform is Windows
-            Console.OutputEncoding = Encoding.Unicode;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("• ▌ ▄ ·. ▄▄▄ . ▄▄ •  ▄▄▄·     ·▄▄▄▄  ▄• ▄▌ ▄▄· ▄ •▄");
-            Console.WriteLine("·██ ▐███▪▀▄.▀·▐█ ▀ ▪▐█ ▀█     ██▪ ██ █▪██▌▐█ ▌▪█▌▄▌▪");
-            Console.WriteLine("▐█ ▌▐▌▐█·▐▀▀▪▄▄█ ▀█▄▄█▀▀█     ▐█· ▐█▌█▌▐█▌██ ▄▄▐▀▀▄·");
-            Console.WriteLine("██ ██▌▐█▌▐█▄▄▌▐█▄▪▐█▐█ ▪▐▌    ██. ██ ▐█▄█▌▐███▌▐█.█▌");
-            Console.Write("▀▀  █▪▀▀▀ ▀▀▀ ·▀▀▀▀  ▀  ▀     ▀▀▀▀▀•  ▀▀▀ ·▀▀▀ ·▀  ▀");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\n                      Loading\n");
-
-            Console.ForegroundColor = ConsoleColor.Green;
-
-            mainTimer = new System.Timers.Timer();
-            mainTimer.Interval = 500; // Trigger timer every 1.5 seconds
-            mainTimer.Elapsed += AddToLoadingBar;
-            mainTimer.AutoReset = true;
-            mainTimer.Enabled = true;
-
-            while(length < 52)
+            do
             {
-                continue;
-            }
+                // Display Menu
+                DisplayMenu();
 
-            mainTimer.Dispose(); // Timer gets killed x.x
-        }
+                if (ProcessUserInput())
+                {
+                    if (selectedOption == 3)
+                        break;
 
-        private void AddToLoadingBar(Object source, ElapsedEventArgs e)
-        {
-            Console.Write("█");
-            length++;
+                    LoadLevel();
+                }
+            } while (true);
         }
 
         private void DisplayMenu()
         {
-            while (true)
-            {
-                Console.Clear();
-                Console.ResetColor(); // Reset foreground and background to default
-                Console.SetWindowSize(38, 12); // Set window to fit menu only
-                Console.Write("╔════════════════════════════════════╗\n║");
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write(" Mega Duck                          ");
-                Console.ResetColor();
-                Console.Write("║\n╠════════════════════════════════════╣\n" +
-                    "║ Select a game to play              ║\n║                                    ║\n║");
+            Console.Clear();
+            Console.WriteLine("╔═════════════╗");
+            Console.WriteLine("║Select a game║");
+            Console.WriteLine("╠═════════════╣");
+            Console.Write("║");
 
-                if(selectedGame == 0)
-                {
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.Write(" Tens                               ");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.Write(" Tens                               ");
-                }
+            if (selectedOption == 0)
+                ToggleHighlight();
 
-                Console.Write("║\n║");
+            Console.Write("Tens         ");
+            Console.ResetColor();
+            Console.Write("║\n║");
 
-                if(selectedGame == 1)
-                {
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.Write(" Elevens                            ");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.Write(" Elevens                            ");
-                }
+            if (selectedOption == 1)
+                ToggleHighlight();
 
-                Console.Write("║\n║");
+            Console.Write("Elevens      ");
+            Console.ResetColor();
+            Console.Write("║\n║");
 
-                if (selectedGame == 2)
-                {
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.Write(" Thirteens                          ");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.Write(" Thirteens                          ");
-                }
+            if (selectedOption == 2)
+                ToggleHighlight();
 
-                Console.Write("║\n");
+            Console.Write("Thirteens    ");
+            Console.ResetColor();
+            Console.Write("║\n║");
 
-                Console.Write("╠════════════════════════════════════╣\n");
-                Console.Write("║");
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write(" Use ↑ and ↓ to highlight a game    ");
-                Console.ResetColor();
-                Console.Write("║\n║");
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write(" Use [Enter] to select a game       ");
-                Console.ResetColor();
-                Console.Write("║\n╚════════════════════════════════════╝");
+            if (selectedOption == 3)
+                ToggleHighlight();
 
-                // Key Input Portion
+            Console.Write("Quit         ");
+            Console.ResetColor();
+            Console.Write("║\n");
 
-                ConsoleKeyInfo input = Console.ReadKey();
-
-                if (input.Key == ConsoleKey.UpArrow && selectedGame > 0)
-                    selectedGame--;
-
-                if (input.Key == ConsoleKey.DownArrow && selectedGame < 2)
-                    selectedGame++;
-
-                if (input.Key == ConsoleKey.Enter)
-                    break;
-
-                //Console.Clear();
-            }
+            Console.WriteLine("╚═════════════╝");
         }
 
-        private void LoadGame()
+        private static void ToggleHighlight()
         {
-            switch (selectedGame)
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.White;
+        }
+
+        private bool ProcessUserInput()
+        {
+            ConsoleKeyInfo input = Console.ReadKey();
+
+            // Case if user pressed enter
+            if (input.Key == ConsoleKey.Enter)
+                return true;
+
+            // Cased if user pressed up or down arrow
+            if (input.Key == ConsoleKey.UpArrow && selectedOption > 0)
+                selectedOption--;
+            else if (input.Key == ConsoleKey.DownArrow && selectedOption < 3)
+                selectedOption++;
+
+            // If we reach the end of this function then the user didn't
+            // press enter
+            return false;
+        }
+
+        private void LoadLevel()
+        {
+            switch (selectedOption)
             {
                 case 0:
-                    Ten tenGame = new Ten();
-
-                    tenGame.Play();
+                    // Load the TENS game
+                    Ten ten = new Ten();
                     break;
                 case 1:
+                    // Load the ELEVENTS game
+                    Eleven eleven = new Eleven();
                     break;
                 case 2:
+                    // Load the Thirteen Game
+                    Thirteen thirteen = new Thirteen();
                     break;
             }
         }
     }
-}
+}*/
