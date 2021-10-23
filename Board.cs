@@ -222,6 +222,8 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         private protected void GetPlayerInput() {
             ConsoleKeyInfo input = Console.ReadKey();
 
+            //if(input.Key == ConsoleKey.F)
+
             if (input.Key == ConsoleKey.LeftArrow && highlightedCard > 0)
                 highlightedCard--;
 
@@ -246,10 +248,12 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         private protected void RemoveSelectedCards()
         {
-            for(int i = 0; i < inPlayCards.Count; i++)
+            for(int i = inPlayCards.Count; i > 0; i--)
             {
-                if (selectedCards[i])
-                    inPlayCards.RemoveAt(i);
+                if (selectedCards[i - 1])
+                {
+                    inPlayCards.RemoveAt(i - 1);
+                }
             }
         }
 
@@ -260,6 +264,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             return false;
         }
 
+        // Check if our Selected Cards has a valid Combo
         private protected bool SelectedCardsHasValidCombo()
         {
             if (HasSumCombo() || HasAltCombo())
@@ -267,9 +272,10 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             return false;
         }
 
+        // Checks if the cards we've selected add up to our target sum
         private protected bool HasSumCombo()
         {
-            int totalSelectedCards = 0;
+            int totalSelectedCards = 0; // Keeps track of the amount of cards we selected
             int sum = 0;
             for(int i = 0; i < inPlayCards.Count; i++)
             {
@@ -280,6 +286,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                 }
             }
 
+            // We have a valid SumCombo only if we selected 2 cards
             if (totalSelectedCards != 2)
                 return false;
 
@@ -289,6 +296,9 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             return false;
         }
 
+
+        // Checks if cards on the table has atleast one pair that adds up to
+        // the sum 
         private protected bool HasSumCombo(List<Card> a)
         {
             int sum = 0;
