@@ -20,53 +20,47 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
             highlightedCard = 0;
             targetSum = 10;
+
+            gameName = "Ten";
         }
 
         private protected override bool HasAltCombo()
         {
-            int selectedCardCount = 0;
-            // Check total amount of selected cards
-            for (int i = 0; i < maxInPlayCards; i++)
+            for(int i = 0; i < inPlayCards.Count - 3; i++)
             {
-                if (selectedCards[i])
-                    selectedCardCount++;
+                if(selectedCards[i] && inPlayCards[i].Value >= 10)
+                {
+                    int dupeCount = 1;
+                    for(int j = i + 1; j < inPlayCards.Count; j++)
+                    {
+                        if (inPlayCards[i] == inPlayCards[j])
+                            dupeCount++;
+                    }
+
+                    if (dupeCount == 4)
+                        return true;
+                }
             }
-
-            if (selectedCardCount != 4)
-                return false;
-
             return false;
         }
 
         private protected override bool HasAltCombo(List<Card> a)
         {
-            int[] dupeCount = new int[4];
-
-            for (int i = 0; i < 4; i++)
-                dupeCount[i] = 0;
-
-            foreach(Card card in a)
+            for(int i = 0; i < inPlayCards.Count - 3; i++)
             {
-                switch (card.Value)
+                if(inPlayCards[i].Value >= 10)
                 {
-                    case 10:
-                        dupeCount[0]++;
-                        break;
-                    case 11:
-                        dupeCount[1]++;
-                        break;
-                    case 12:
-                        dupeCount[2]++;
-                        break;
-                    case 13:
-                        dupeCount[3]++;
-                        break;
+                    int dupeCount = 1;
+                    for (int j = i + 1; j < inPlayCards.Count; j++)
+                    {
+                        if (inPlayCards[i] == inPlayCards[j])
+                            dupeCount++;
+                    }
+
+                    if (dupeCount == 4)
+                        return true;
                 }
             }
-
-            for (int i = 0; i < 4; i++)
-                if (dupeCount[i] == 4)
-                    return true;
             return false;
         }
     }

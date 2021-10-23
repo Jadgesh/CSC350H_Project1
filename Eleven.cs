@@ -20,6 +20,8 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
             highlightedCard = 0;
             targetSum = 11;
+
+            gameName = "Eleven";
         }
 
         private protected override bool HasAltCombo()

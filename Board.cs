@@ -14,6 +14,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         private protected int highlightedCard;
         private protected int maxInPlayCards;
 
+        private protected string gameName;
         public void Play()
         {
             // Shuffle our deck
@@ -26,22 +27,23 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
             while (TableHasValidCombo())
             {
-                GetPlayerInput();
-
-                // If the selected cards they chose has a valid input do this
-                if (SelectedCardsHasValidCombo())
+                do
                 {
-                    // Add points
-                    // Remove Cards
-                    RemoveSelectedCards();
-                    // Reset selected cards
-                    ResetSelectedCards();
+                    GetPlayerInput();
 
-                    // Move our "Cursor" to a valid card
-                    RearrangeHighlightedCard();
-                    // Draw New Cards
-                    DealCards();
-                }
+                    DisplayBoard();
+                } while (!SelectedCardsHasValidCombo());
+
+                // Add points
+                // Remove Cards
+                RemoveSelectedCards();
+                // Reset selected cards
+                ResetSelectedCards();
+
+                // Move our "Cursor" to a valid card
+                RearrangeHighlightedCard();
+                // Draw New Cards
+                DealCards();
 
                 DisplayBoard();
             }
@@ -58,6 +60,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             }
         }
 
+        // Adds cards to our inPlayCards list 
         private protected void DealCards()
         {
             while (inPlayCards.Count < maxInPlayCards && !deck.Empty)
@@ -69,11 +72,15 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             }
         }
 
+        // If our highlight card position is nolong a valid card
+        // Reset our HIghlighted card position
         private protected void RearrangeHighlightedCard()
         {
             if (inPlayCards.Count - 1 < highlightedCard)
                 highlightedCard = inPlayCards.Count - 1;
         }
+
+        // Display our game board to our screen
         private protected void DisplayBoard()
         {
             Console.Clear();
@@ -84,22 +91,29 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         }
 
+        // Prints Losing screen
         private protected void DisplayLoseScreen()
         {
+            int x, y;
+            (x, y) = Console.GetCursorPosition();
             Console.Clear();
             DisplayBoard();
-            Console.SetCursorPosition(2, 2);
+            Console.SetCursorPosition(x, y);
             Console.Write("YOU LOSE");
         }
 
+        // Prints Winning Screen
         private protected void DisplayWinScreen()
         {
+            int x, y;
+            (x,y) = Console.GetCursorPosition();
             Console.Clear();
             DisplayBoard();
-            Console.SetCursorPosition(2, 2);
+            Console.SetCursorPosition(x, y);
             Console.Write("YOU WIN!");
         }
 
+        // Prints the border of our game Window 
         private protected void DisplayBorder()
         {
             Console.Write("╔");
@@ -127,13 +141,17 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             Console.Write("╝\n");
         }
 
+        // Prints a visual representation of each card
         private protected void DisplayCards()
         {
+            // Save our current Cursor Position so we can reset postion later
             int x, y;
             (x, y) = Console.GetCursorPosition();
 
+            // While we're printing cards, we want the background to be white
             Console.BackgroundColor = ConsoleColor.White;
 
+            // We always want to start at 2,2
             int t = 2;
             int l = 2;
 
@@ -176,21 +194,25 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             Console.ResetColor();
         }
 
+        // Take an index and a bool to specify if we're printing reversed or not
         private protected string CardSAndR(int index, bool reverse)
         {
             string SuitSymbol = SuitToSymbol(inPlayCards[index].Suit);
             string ValueSymbol = ValueToSymbol(inPlayCards[index].Value);
             string filler = "  ";
 
+            // If our string length isn't long enough, add spaces to filler
             if (SuitSymbol.Length + ValueSymbol.Length + filler.Length < 5)
                 filler += " ";
 
+            // If we are requesting the reverse version return this
             if (reverse)
                 return SuitSymbol + filler + ValueSymbol;
 
             return ValueSymbol + filler + SuitSymbol;
         }
 
+        // Returns a string representation of our Suit
         private protected string SuitToSymbol(Suit a)
         {
             switch (a)
@@ -208,6 +230,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             return " ";
         }
 
+        // Returns a string representation of our Rank
         private protected string ValueToSymbol(int a)
         {
             switch (a)
@@ -224,6 +247,8 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             return a.ToString();
         }
 
+        // CHanging the foreground color depending on which suit
+        // we're currently printing
         private protected void ChangeCardForeground(Suit a)
         {
             if (a == Suit.Clubs || a == Suit.Spades)
@@ -232,6 +257,8 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                 Console.ForegroundColor = ConsoleColor.Red;
         }
 
+        // Gets the player input moves and moves our "highlighter"
+        // Also selects cards if the user presses enter
         private protected void GetPlayerInput() {
             ConsoleKeyInfo input = Console.ReadKey();
 
@@ -253,12 +280,15 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                 selectedCards[highlightedCard] = !selectedCards[highlightedCard];
         }
 
+        // Loops through our selectedCards array and set every element to false
         private protected void ResetSelectedCards()
         {
-            for (int i = 0; i < maxInPlayCards; i++)
+            for (int i = 0; i < selectedCards.Length; i++)
                 selectedCards[i] = false;
         }
 
+        // Loops through our inPlayCards and remove the cards we've selected
+        // Loops through array backwards to avoid elements being shifted
         private protected void RemoveSelectedCards()
         {
             for(int i = inPlayCards.Count; i > 0; i--)
@@ -270,6 +300,8 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             }
         }
 
+        // Checks if the table has any valid combos by checking
+        // our SumCombo case and our AltCombo case
         private protected bool TableHasValidCombo()
         {
             if (HasSumCombo(inPlayCards) || HasAltCombo(inPlayCards))
@@ -303,12 +335,12 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             if (totalSelectedCards != 2)
                 return false;
 
+            // We have a valid sum
             if (sum == targetSum)
                 return true;
 
             return false;
         }
-
 
         // Checks if cards on the table has atleast one pair that adds up to
         // the sum 
@@ -317,7 +349,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             int sum = 0;
             for(int i = 0; i < inPlayCards.Count - 1; i++)
             {
-                for(int j = i; j < inPlayCards.Count; j++)
+                for(int j = i + 1; j < inPlayCards.Count; j++)
                 {
                     sum = inPlayCards[i].Value + inPlayCards[j].Value;
 
