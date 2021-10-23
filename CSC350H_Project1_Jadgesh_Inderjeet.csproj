@@ -8,9 +8,4 @@
   <ItemGroup>
     <None Remove="ConsoleCards" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="ConsoleCards">
-      <HintPath>..\..\CSC350\DLLs\ConsoleCards.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>

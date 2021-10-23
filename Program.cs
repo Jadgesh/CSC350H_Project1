@@ -11,9 +11,16 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet{
             //Console.WriteLine(" [1] ");
             //Console.WriteLine("♥   A");
 
-            Thirteen thirteen = new Thirteen();
+            //Thirteen thirteen = new Thirteen();
 
-            thirteen.Play();
+            //thirteen.Play();
+
+            //Eleven eleven = new Eleven();
+
+            //eleven.Play();
+
+            Ten ten = new Ten();
+            ten.Play();
 
         }
     }

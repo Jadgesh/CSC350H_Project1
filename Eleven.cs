@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +8,81 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 {
     class Eleven : Board
     {
-        private protected override void GetPlayerSelection()
+        public Eleven()
         {
-            throw new NotImplementedException();
+            deck = new Deck();
+            inPlayCards = new List<Card>();
+
+            maxInPlayCards = 9;
+
+            selectedCards = new bool[maxInPlayCards];
+            ResetSelectedCards();
+
+            highlightedCard = 0;
+            targetSum = 11;
         }
 
-        private protected override bool HasValidPair()
+        private protected override bool HasAltCombo()
         {
-            throw new NotImplementedException();
+            int selectedCardCount = 0;
+
+            bool hasK = false;
+            bool hasQ = false;
+            bool hasJ = false;
+
+            // Check total amount of selected cards
+            for (int i = 0; i < maxInPlayCards; i++)
+            {
+                if (selectedCards[i])
+                    selectedCardCount++;
+            }
+
+            if (selectedCardCount != 3)
+                return false;
+
+            for (int i = 0; i < inPlayCards.Count; i++)
+            {
+                if (selectedCards[i])
+                {
+                    if (inPlayCards[i].Value == 11)
+                        hasJ = true;
+
+                    if (inPlayCards[i].Value == 12)
+                        hasQ = true;
+
+                    if (inPlayCards[i].Value == 13)
+                        hasK = true;
+                }
+            }
+
+            if (hasK && hasQ && hasJ)
+                return true;
+
+            return false;
         }
 
-        private protected override bool SelectionIsValidCombination()
+        private protected override bool HasAltCombo(List<Card> a)
         {
-            throw new NotImplementedException();
+            bool hasK = false;
+            bool hasQ = false;
+            bool hasJ = false;
+
+            for (int i = 0; i < a.Count; i++)
+            {
+                if (a[i].Value == 11)
+                    hasJ = true;
+
+                if (a[i].Value == 12)
+                    hasQ = true;
+
+                if (a[i].Value == 13)
+                    hasK = true;
+            }
+
+            if (hasK && hasQ && hasJ)
+                return true;
+
+            return false;
         }
     }
-}
-*/
+}   

@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Text;
 
 namespace CSC350H_Project1_Jadgesh_Inderjeet
@@ -9,7 +9,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         public MegaDuck()
         {
-            Console.OutputEncoding = Encoding.Default;
+            //Console.OutputEncoding = Encoding.Default;
             MenuManager();
         }
 
@@ -115,4 +115,4 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             }
         }
     }
-}*/
+}

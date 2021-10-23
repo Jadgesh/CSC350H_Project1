@@ -36,6 +36,9 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                     RemoveSelectedCards();
                     // Reset selected cards
                     ResetSelectedCards();
+
+                    // Move our "Cursor" to a valid card
+                    RearrangeHighlightedCard();
                     // Draw New Cards
                     DealCards();
                 }
@@ -57,10 +60,20 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         private protected void DealCards()
         {
-            while (inPlayCards.Count < maxInPlayCards)
-                inPlayCards.Add(deck.TakeTopCard());
+            while (inPlayCards.Count < maxInPlayCards && !deck.Empty)
+            {
+                Card temp = deck.TakeTopCard();
+
+                if(temp != null)
+                    inPlayCards.Add(temp);
+            }
         }
 
+        private protected void RearrangeHighlightedCard()
+        {
+            if (inPlayCards.Count - 1 < highlightedCard)
+                highlightedCard = inPlayCards.Count - 1;
+        }
         private protected void DisplayBoard()
         {
             Console.Clear();
