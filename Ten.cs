@@ -22,6 +22,8 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             targetSum = 10;
 
             gameName = "Ten";
+
+            MenuManager();
         }
 
         private protected override bool HasAltCombo()

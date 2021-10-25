@@ -9,7 +9,6 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         public MegaDuck()
         {
-            //Console.OutputEncoding = Encoding.Default;
             MenuManager();
         }
 
@@ -22,7 +21,8 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                 // Display Menu
                 DisplayMenu();
 
-                if (ProcessUserInput())
+                // Get user input, if they press enter do something
+                if (GetUserInput())
                 {
                     if (selectedOption == 3)
                         break;
@@ -77,7 +77,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             Console.BackgroundColor = ConsoleColor.White;
         }
 
-        private bool ProcessUserInput()
+        private bool GetUserInput()
         {
             ConsoleKeyInfo input = Console.ReadKey();
 
