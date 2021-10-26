@@ -114,6 +114,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         // If our highlight card position is nolong a valid card
         // Reset our HIghlighted card position
+
         private void RearrangeHighlightedCard()
         {
             if (inPlayCards.Count - 1 < highlightedCard)
