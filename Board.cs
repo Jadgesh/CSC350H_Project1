@@ -21,6 +21,9 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         // Plays Game Loop
         private protected void Play()
         {
+            DisplayBorder();
+
+            HowToPlay();
 
             score = 0;
 
@@ -31,10 +34,9 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             // Deal Cards
             DealCards();
 
-            //DisplayBoard();
             Console.Clear();
 
-            DisplayBorder();
+            DisplayBoard();
 
             DisplayGameName();
 
@@ -120,7 +122,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         private static void AwaitKeyPress()
         {
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
         // Display our game board to our screen
         private void DisplayBoard()
@@ -343,7 +345,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         // function returns true then
         private bool GetPlayerInput() {
 
-            ConsoleKeyInfo input = Console.ReadKey();
+            ConsoleKeyInfo input = Console.ReadKey(true);
 
             if (input.Key == ConsoleKey.F)
                 return true;
@@ -450,5 +452,28 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         private protected abstract bool HasAltCombo(List<Card> a);
 
+        private protected abstract void WriteAltCombo();
+        private void HowToPlay()
+        {
+            Console.SetCursorPosition(2, 1);
+            Console.Write($"How to play {gameName}");
+            Console.SetCursorPosition(2, 3);
+            Console.Write("You can move with arrow keys");
+            Console.SetCursorPosition(2, 4);
+            Console.Write("You can toggle select a card");
+            Console.SetCursorPosition(2, 5);
+            Console.Write("with [Enter]");
+
+            Console.SetCursorPosition(2, 7);
+            Console.Write("The Goal:");
+            Console.SetCursorPosition(2, 8);
+            Console.Write("Select two cards that add");
+            Console.SetCursorPosition(2, 9);
+            Console.Write($"up to {targetSum}");
+
+            WriteAltCombo();
+
+            Console.ReadKey(true);
+        }
     }
 }

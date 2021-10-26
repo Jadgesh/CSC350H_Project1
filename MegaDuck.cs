@@ -69,7 +69,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         private static bool GetUserInput()
         {
-            ConsoleKeyInfo input = Console.ReadKey();
+            ConsoleKeyInfo input = Console.ReadKey(true);
 
             // Case if user pressed enter
             if (input.Key == ConsoleKey.Enter)
@@ -120,7 +120,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             }
 
             Console.WriteLine("\n\n Press any key to return to the menu");
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
     }
 }

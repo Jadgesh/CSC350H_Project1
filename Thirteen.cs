@@ -57,5 +57,11 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             }
             return false;
         }
+
+        private protected override void WriteAltCombo()
+        {
+            Console.SetCursorPosition(2, 11);
+            Console.Write("Select a King");
+        }
     }
 }
