@@ -230,31 +230,44 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             int x, y;
             (x, y) = Console.GetCursorPosition();
 
-            // While we're printing cards, we want the background to be white
-            Console.BackgroundColor = ConsoleColor.White;
-
             // We always want to start at 2,2
             int t = 2;
             int l = 2;
 
             // Starting position should be 2,2
-            for(int i = 0; i < inPlayCards.Count; i++)
+            for(int i = 0; i < maxInPlayCards; i++)
             {
-                if (highlightedCard == i)
-                    Console.BackgroundColor = ConsoleColor.Blue;
-                if (selectedCards[i])
-                    Console.BackgroundColor = ConsoleColor.Yellow;
+                if(i >= inPlayCards.Count)
+                {
+                    Console.ResetColor();
+                    Console.SetCursorPosition(l, t);
+                    Console.Write($"     ");
+                    Console.SetCursorPosition(l, t + 1);
+                    Console.Write($"     ");
+                    Console.SetCursorPosition(l, t + 2);
+                    Console.Write($"     ");
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
 
-                if (selectedCards[i] && highlightedCard == i)
-                    Console.BackgroundColor = ConsoleColor.Green;
+                    if (highlightedCard == i)
+                        Console.BackgroundColor = ConsoleColor.Blue;
+                    if (selectedCards[i])
+                        Console.BackgroundColor = ConsoleColor.Yellow;
 
-                ChangeCardForeground(inPlayCards[i].Suit);
-                Console.SetCursorPosition(l, t);
-                Console.Write(CardSAndR(i, false));
-                Console.SetCursorPosition(l, t + 1);
-                Console.Write($"     ");
-                Console.SetCursorPosition(l, t + 2);
-                Console.Write(CardSAndR(i, true));
+                    if (selectedCards[i] && highlightedCard == i)
+                        Console.BackgroundColor = ConsoleColor.Green;
+
+
+                    ChangeCardForeground(inPlayCards[i].Suit);
+                    Console.SetCursorPosition(l, t);
+                    Console.Write(CardSAndR(i, false));
+                    Console.SetCursorPosition(l, t + 1);
+                    Console.Write($"     ");
+                    Console.SetCursorPosition(l, t + 2);
+                    Console.Write(CardSAndR(i, true));
+                }
 
                 l += 6;
 

@@ -116,7 +116,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             for (int i = 0; i < ls.Count; i++)
             {
                 Console.WriteLine($"{ls[i].GameType}  {ls[i].Name}  {ls[i].Score}");
-                Console.WriteLine("═══════════╩═════╩═══════");
+                Console.WriteLine("═════════════════════════");
             }
 
             Console.WriteLine("\n\n Press any key to return to the menu");
