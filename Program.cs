@@ -6,7 +6,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet{
         static void Main(string[] args){
 
             MegaDuck.Menu();
-
+            // IGnore this testing Visual Studio Git commits
         }
     }
 }
