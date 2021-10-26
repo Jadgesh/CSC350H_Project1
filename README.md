@@ -5,4 +5,5 @@
 
 # UML Design (Initial and (Final?))
 ![UML class (1)](https://user-images.githubusercontent.com/36340850/138815091-c1170bcd-7b4e-4b2d-b00f-6e50d742f244.png)
-![UML class (2)](https://user-images.githubusercontent.com/36340850/138817592-6e495773-57da-4e49-b179-c18aa76275d2.png)
+
+![UML class (3)](https://user-images.githubusercontent.com/36340850/138817672-026d05c9-f506-44ff-b654-a97c3bb53f45.png)
