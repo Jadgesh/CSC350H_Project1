@@ -1,17 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CSC350H_Project1_Jadgesh_Inderjeet
 {
-    class MegaDuck
+    static class MegaDuck
     {
-        private int selectedOption;
+        private static int selectedOption;
 
-        public MegaDuck()
-        {
-            MenuManager();
-        }
-
-        private void MenuManager()
+        public static void Menu()
         {
             selectedOption = 0;
 
@@ -23,51 +19,46 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                 // Get user input, if they press enter do something
                 if (GetUserInput())
                 {
-                    if (selectedOption == 3)
+                    if (selectedOption == 4)
                         break;
+
+                    if (selectedOption == 3)
+                        ShowLeaderboard();
 
                     LoadLevel();
                 }
             } while (true);
         }
 
-        private void DisplayMenu()
+        private static void DisplayMenu()
         {
             Console.Clear();
-            Console.WriteLine("╔═════════════╗");
-            Console.WriteLine("║Select a game║");
-            Console.WriteLine("╠═════════════╣");
-            Console.Write("║");
+            Console.WriteLine("SELECT A MODULE TO LOAD");
 
             if (selectedOption == 0)
                 ToggleHighlight();
-
-            Console.Write("Tens         ");
+            Console.WriteLine(" Tens");
             Console.ResetColor();
-            Console.Write("║\n║");
 
             if (selectedOption == 1)
                 ToggleHighlight();
-
-            Console.Write("Elevens      ");
+            Console.WriteLine(" Elevens");
             Console.ResetColor();
-            Console.Write("║\n║");
 
             if (selectedOption == 2)
                 ToggleHighlight();
-
-            Console.Write("Thirteens    ");
+            Console.WriteLine(" Thirteens");
             Console.ResetColor();
-            Console.Write("║\n║");
 
             if (selectedOption == 3)
                 ToggleHighlight();
-
-            Console.Write("Quit         ");
+            Console.WriteLine(" Leaderboard");
             Console.ResetColor();
-            Console.Write("║\n");
 
-            Console.WriteLine("╚═════════════╝");
+            if (selectedOption == 4)
+                ToggleHighlight();
+            Console.WriteLine(" Quit");
+            Console.ResetColor();
         }
 
         private static void ToggleHighlight()
@@ -76,7 +67,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             Console.BackgroundColor = ConsoleColor.White;
         }
 
-        private bool GetUserInput()
+        private static bool GetUserInput()
         {
             ConsoleKeyInfo input = Console.ReadKey();
 
@@ -84,10 +75,10 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             if (input.Key == ConsoleKey.Enter)
                 return true;
 
-            // Cased if user pressed up or down arrow
+            // Case if user pressed up or down arrow
             if (input.Key == ConsoleKey.UpArrow && selectedOption > 0)
                 selectedOption--;
-            else if (input.Key == ConsoleKey.DownArrow && selectedOption < 3)
+            else if (input.Key == ConsoleKey.DownArrow && selectedOption < 4)
                 selectedOption++;
 
             // If we reach the end of this function then the user didn't
@@ -95,7 +86,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             return false;
         }
 
-        private void LoadLevel()
+        private static void LoadLevel()
         {
             switch (selectedOption)
             {
@@ -104,7 +95,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                     Ten ten = new Ten();
                     break;
                 case 1:
-                    // Load the ELEVENTS game
+                    // Load the ELEVENS game
                     Eleven eleven = new Eleven();
                     break;
                 case 2:
@@ -112,6 +103,24 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                     Thirteen thirteen = new Thirteen();
                     break;
             }
+        }
+
+        private static void ShowLeaderboard()
+        {
+            Console.Clear();
+            List<Leaderboard_Data> ls = Leaderboard.Load();
+
+            Console.WriteLine("   Game    ║ Tag ║ Score");
+            Console.WriteLine("═══════════╩═════╩═══════");
+
+            for (int i = 0; i < ls.Count; i++)
+            {
+                Console.WriteLine($"{ls[i].GameType}  {ls[i].Name}  {ls[i].Score}");
+                Console.WriteLine("═══════════╩═════╩═══════");
+            }
+
+            Console.WriteLine("\n\n Press any key to return to the menu");
+            Console.ReadKey();
         }
     }
 }

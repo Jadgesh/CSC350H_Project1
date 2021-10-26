@@ -18,132 +18,10 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
         private int score;
 
-        private int highlightedMenuItem;
-        // Menu Manager
-        protected void MenuManager()
-        {
-            highlightedMenuItem = 0;
-            do
-            {
-                DisplayMenu();
-
-                if (GetMenuInput())
-                {
-                    if (highlightedMenuItem == 3)
-                        break;
-
-                    switch (highlightedMenuItem)
-                    {
-                        case 0:
-                            Play();
-                            break;
-                        case 1:
-                            Help();
-                            break;
-                        case 2:
-                            Leaderboard();
-                            break;
-                    }
-                }
-            } while (true);
-        }
-
-        private void Leaderboard()
-        {
-
-        }
-
-        private void Help()
-        {
-
-        }
-
-        private bool GetMenuInput()
-        {
-            ConsoleKeyInfo input = Console.ReadKey();
-
-            // Case if user pressed enter
-            if (input.Key == ConsoleKey.Enter)
-                return true;
-
-            // Cased if user pressed up or down arrow
-            if (input.Key == ConsoleKey.UpArrow && highlightedMenuItem > 0)
-                highlightedMenuItem--;
-            else if (input.Key == ConsoleKey.DownArrow && highlightedMenuItem < 3)
-                highlightedMenuItem++;
-
-            // If we reach the end of this function then the user didn't
-            // press enter
-            return false;
-        }
-
-        private void DisplayMenu()
-        {
-            Console.Clear();
-            // print top Bar
-            Console.Write("╔");
-
-            for (int i = 0; i < 13; i++)
-                Console.Write("═");
-
-            Console.Write($"╗\n║ {gameName}");
-
-            // | Leaderboard |
-            for (int i = 0; i < 12 - gameName.Length; i++)
-                Console.Write(" ");
-
-            Console.Write("║\n╠");
-            for (int i = 0; i < 13; i++)
-                Console.Write("═");
-
-            Console.Write("╣\n║");
-
-            if(highlightedMenuItem == 0)
-            {
-                ToggleHighlight();
-            }
-
-            Console.Write(" Play        ");
-            Console.ResetColor();
-            Console.Write("║\n║");
-
-            if(highlightedMenuItem == 1)
-            {
-                ToggleHighlight();
-            }
-
-            Console.Write(" Help        ");
-            Console.ResetColor();
-            Console.Write("║\n║");
-
-            if (highlightedMenuItem == 2)
-                ToggleHighlight();
-
-            Console.Write(" Leaderboard ");
-            Console.ResetColor();
-            Console.Write("║\n║");
-
-            if (highlightedMenuItem == 3)
-                ToggleHighlight();
-
-            Console.Write(" Return      ");
-            Console.ResetColor();
-            Console.Write("║\n╚");
-
-            for (int i = 0; i < 13; i++)
-                Console.Write("═");
-
-            Console.Write("╝");
-
-        }
-        private static void ToggleHighlight()
-        {
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.BackgroundColor = ConsoleColor.White;
-        }
         // Plays Game Loop
-        private void Play()
+        private protected void Play()
         {
+
             score = 0;
 
             bool ff = false;
@@ -153,37 +31,59 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             // Deal Cards
             DealCards();
 
-            DisplayBoard();
+            //DisplayBoard();
+            Console.Clear();
 
-            while (TableHasValidCombo())
+            DisplayBorder();
+
+            DisplayGameName();
+
+            DisplayCards();
+
+            DisplayScore();
+            TimeSpan timer = TimeSpan.FromSeconds(10);
+            DateTime timerStart = DateTime.Now;
+            int timeRemaining = 0;
+            int lastTime = timeRemaining;
+            // While there's valid matches still on the table
+            // 
+            while (TableHasValidCombo() && DateTime.Now - timerStart < timer)
             {
-                do
+                timeRemaining = 10 - (int)Math.Round(((DateTime.Now - timerStart).TotalSeconds));
+
+                if(timeRemaining != lastTime)
+                {
+                    DisplayTimeRemaining(timeRemaining);
+                    lastTime = timeRemaining;
+                }
+
+                if (Console.KeyAvailable)
                 {
                     ff = GetPlayerInput();
 
-                    if (ff)
-                        break;
+                    if (!ff)
+                        DisplayCards();
 
-                    DisplayBoard();
-                } while (!SelectedCardsHasValidCombo());
+                }
 
                 if (ff)
                     break;
 
-                // Add points
-                score++;
+                if (SelectedCardsHasValidCombo())
+                {
+                    score++;
 
-                // Remove Cards
-                RemoveSelectedCards();
-                // Reset selected cards
-                ResetSelectedCards();
+                    RemoveSelectedCards();
+                    ResetSelectedCards();
+                    RearrangeHighlightedCard();
+                    DealCards();
 
-                // Move our "Cursor" to a valid card
-                RearrangeHighlightedCard();
-                // Draw New Cards
-                DealCards();
+                    DisplayCards();
+                    DisplayScore();
 
-                DisplayBoard();
+                    // Reset Timer
+                    timerStart = DateTime.Now;
+                }
             }
 
             if(deck.Empty && inPlayCards.Count == 0)
@@ -218,7 +118,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
                 highlightedCard = inPlayCards.Count - 1;
         }
 
-        private void AwaitKeyPress()
+        private static void AwaitKeyPress()
         {
             Console.ReadKey();
         }
@@ -234,6 +134,12 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
             DisplayCards();
 
             DisplayScore();
+        }
+
+        private void DisplayTimeRemaining(int time)
+        {
+            Console.SetCursorPosition(21, 10);
+            Console.Write(String.Format("Time: {0,2}", time));
         }
 
         private void DisplayGameName()
@@ -261,39 +167,35 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         // Prints Losing screen
         private void DisplayLoseScreen()
         {
-            int x, y;
-            (x, y) = Console.GetCursorPosition();
             Console.Clear();
-            DisplayBoard();
-            Console.SetCursorPosition(1, 13);
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.Write("YOU LOSE                       ");
-            Console.ResetColor();
-            SaveScore();
+            DisplayBorder();
+            Console.SetCursorPosition(12, 4);
+            Console.Write("You lose!");
+            Console.SetCursorPosition(12, 6);
+            Console.Write($"Score: {score}");
+            Console.SetCursorPosition(2, 10);
+            Console.Write("Enter your name: ");
+            Leaderboard.Save(gameName, Console.ReadLine(), score);
         }
 
         // Prints Winning Screen
         private void DisplayWinScreen()
         {
-            int x, y;
-            (x,y) = Console.GetCursorPosition();
             Console.Clear();
-            DisplayBoard();
-            Console.SetCursorPosition(1, 13);
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.Write("YOU Win                       ");
-            Console.ResetColor();
-            SaveScore();
-        }
-
-        private void SaveScore()
-        {
-
+            DisplayBorder();
+            Console.SetCursorPosition(12, 4);
+            Console.Write("You win!");
+            Console.SetCursorPosition(12, 6);
+            Console.Write($"Score: {score}");
+            Console.SetCursorPosition(2, 10);
+            Console.Write("Enter your name: ");
+            Leaderboard.Save(gameName, Console.ReadLine(), score);
         }
 
         // Prints the border of our game Window 
         private void DisplayBorder()
         {
+            Console.SetCursorPosition(0, 0);
             Console.Write("╔");
 
             for (int i = 0; i < 31; i++)
@@ -440,6 +342,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
         // if the player presses the F key they forfeit
         // function returns true then
         private bool GetPlayerInput() {
+
             ConsoleKeyInfo input = Console.ReadKey();
 
             if (input.Key == ConsoleKey.F)

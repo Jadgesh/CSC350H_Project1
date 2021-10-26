@@ -23,7 +23,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
             gameName = "Thirteen";
 
-            MenuManager();
+            Play();
         }
 
         private protected override bool HasAltCombo()
