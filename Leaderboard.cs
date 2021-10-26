@@ -20,7 +20,7 @@ namespace CSC350H_Project1_Jadgesh_Inderjeet
 
             // Once we have our file's path, we can check if the file exists.
             // If the file doesn't exist, we'll create it and then close the file.
-            if (!Directory.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 Stream myFile = File.Create(filePath);
                 myFile.Close();
